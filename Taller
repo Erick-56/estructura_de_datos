@@ -1,0 +1,134 @@
+#include <iostream>
+using namespace std;
+struct estudiante
+{
+    char nombre[60];
+    float cupoCredito;
+    float cupoUsado;
+
+    estudiante *sig;
+};
+estudiante *cabeza, *aux, *aux2;
+float total;
+void registrar()
+{
+    if (!cabeza)
+    {
+        cabeza = (struct estudiante *)malloc(sizeof(struct estudiante));
+        cout << "Registre nombre: ";
+        cin >> cabeza->nombre;
+        cout << "Registre cupo de credito: ";
+        cin >> cabeza->cupoCredito;
+        cout << "Registre cupo de uso: ";
+        cin >> cabeza->cupoUsado;
+        cabeza->sig = NULL;
+    }
+    else
+    {
+        aux = cabeza;
+        while (aux->sig != NULL)
+        {
+            aux = aux->sig;
+        }
+
+        aux2 = (struct estudiante *)malloc(sizeof(struct estudiante));
+        cout << "Registre nombre: ";
+        cin >> aux2->nombre;
+        cout << "Registre cupo de credito: ";
+        cin >> aux2->cupoCredito;
+        cout << "Registre cupo de uso: ";
+        cin >> aux2->cupoUsado;
+        aux2->sig = NULL;
+        aux->sig = aux2;
+        aux = aux2 = NULL;
+        free(aux);
+        free(aux2);
+    }
+};
+void mostrar()
+{
+    for (aux = cabeza; aux != NULL; aux = aux->sig)
+    {
+
+        total = (aux->cupoCredito - aux->cupoUsado);
+
+        cout << "Nombre: " << aux->nombre << endl;
+        cout << "Cupo de credito: " << aux->cupoCredito << endl;
+        cout << "Cupo de Uso: " << aux->cupoUsado << endl;
+        cout << "El total de créditos por cobrar: " << total << endl;
+        cout << "----------------------------------------" << endl;
+    }
+    free(aux);
+};
+
+void mostrar2()
+{
+    for (aux = cabeza; aux != NULL; aux = aux->sig)
+    {
+
+        if ((aux->cupoUsado / aux->cupoCredito) < 0.2)
+        {
+            total = (aux->cupoCredito - aux->cupoUsado);
+            cout << "20----------------------------------------" << endl;
+            cout << "Nombre: " << aux->nombre << endl;
+            cout << "Cupo de credito: " << aux->cupoCredito << endl;
+            cout << "Cupo de Uso: " << aux->cupoUsado << endl;
+            cout << "El total de créditos por cobrar: " << total << endl;
+            cout << "----------------------------------------" << endl;
+        }
+    }
+    free(aux);
+};
+
+void mostrar3()
+{
+    for (aux = cabeza; aux != NULL; aux = aux->sig)
+    {
+
+        if ((aux->cupoUsado / aux->cupoCredito) > 0.8)
+        {
+            total = (aux->cupoCredito - aux->cupoUsado);
+            cout << "80----------------------------------------" << endl;
+            cout << "Nombre: " << aux->nombre << endl;
+            cout << "Cupo de credito: " << aux->cupoCredito << endl;
+            cout << "Cupo de Uso: " << aux->cupoUsado << endl;
+            cout << "El total de créditos por cobrar: " << total << endl;
+            cout << "----------------------------------------" << endl;
+        }
+    }
+    free(aux);
+};
+
+int main()
+{
+    int opcion = 0;
+    do
+    {
+
+        cout << "Menu " << endl
+             << "1. Registrar cliente" << endl
+             << "2. Mostrar todos los clientes." << endl
+             << "3 Mostrar cupo usado del 20%." << endl
+             << "4. Mostrar cupo usado del 80%." << endl
+             << "5. Salir" << endl;
+        cin >> opcion;
+        switch (opcion)
+        {
+        case 1:
+            registrar();
+            break;
+        case 2:
+            mostrar();
+            break;
+        case 3:
+            mostrar2();
+            break;
+        case 4:
+            mostrar3();
+            break;
+        }
+
+    } while (opcion != 5);
+
+    return 0;
+}
